@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.canvas{width:790px;padding:16px 12px;background:#fff}
+.title{text-align:center;font-size:18.5px;font-weight:700;color:#1f2937;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 26px}
+.ent{border:1.8px solid #55705A;border-radius:6px;background:#F4F7F2;padding:0 0 6px;display:flex;flex-direction:column}
+.ent-h{background:#436446;color:#fff;font-size:13px;font-weight:700;text-align:center;padding:5px 4px;border-radius:4px 4px 0 0;letter-spacing:.3px}
+.ent-b{padding:6px 9px 0;flex:1}
+.ent-b div{font-size:11.6px;color:#33413a;line-height:1.5}
+.ent-b .pk{font-weight:700;color:#1f2f22}
+.rel-f{margin-top:5px;padding:4px 9px 0;border-top:1px dashed #9DB09D;font-size:10.8px;font-weight:700;color:#436446}
+.notecard{margin-top:20px;border:1.5px dashed #7A5C2E;border-radius:6px;background:#FAF6EC;padding:8px 12px;font-size:11.8px;color:#3d2f14;line-height:1.5}
+.notecard b{color:#1f2f22}
+.leg{margin-top:10px;text-align:center;font-size:11.3px;color:#6b7280;font-style:italic}
+</style></head><body>
+<div class="canvas" id="shot">
+  <div class="title">Entity-Relationship Model of the SkillProof Verification Database</div>
+  <div class="grid">
+    <div class="ent"><div class="ent-h">CANDIDATE</div><div class="ent-b">
+      <div class="pk">PK id (cuid)</div><div>name, email (indexed)</div><div>tags, notes, archived, invited</div><div>pipelineStatus, pipelineNote</div><div>pipelineMetaJson</div></div>
+      <div class="rel-f">1 : N Resume &middot; 1 : N Assessment &middot; 1 : N Certificate &middot; 1 : N PipelineEvent</div></div>
+    <div class="ent"><div class="ent-h">RESUME</div><div class="ent-b">
+      <div class="pk">PK id</div><div>FK candidateId (CASCADE)</div><div>fileName, rawText</div><div>skillsJson (extracted)</div></div>
+      <div class="rel-f">N : 1 Candidate</div></div>
+    <div class="ent"><div class="ent-h">ASSESSMENT</div><div class="ent-b">
+      <div class="pk">PK id</div><div>FK candidateId (CASCADE)</div><div>status, planJson</div><div>startedAt, expiresAt</div><div>completedAt</div></div>
+      <div class="rel-f">N : 1 Candidate &middot; 1 : N AssessmentQuestion &middot; 1 : 1 Report &middot; 1 : 1 Certificate</div></div>
+
+    <div class="ent"><div class="ent-h">ASSESSMENT_QUESTION</div><div class="ent-b">
+      <div class="pk">PK id</div><div>FK assessmentId, FK questionId</div><div>status, score, attempts, hintCount</div><div>activeFlag (@@unique w/ assessment)</div><div>dealtAt, deadlineAt, timeLimitSec</div></div>
+      <div class="rel-f">N : 1 Assessment &middot; N : 1 Question &middot; 1 : 1 Submission</div></div>
+    <div class="ent"><div class="ent-h">QUESTION</div><div class="ent-b">
+      <div class="pk">PK id &middot; UK externalId</div><div>skill (12), topic, difficulty</div><div>category: coding / debugging / mcq</div><div>testsJson, optionsJson, hint</div><div>schemaSql, seedSql, solutionSql</div></div>
+      <div class="rel-f">1 : N AssessmentQuestion (reusable pool)</div></div>
+    <div class="ent"><div class="ent-h">SUBMISSION</div><div class="ent-b">
+      <div class="pk">PK id &middot; UK assessmentQuestionId</div><div>code, language, eventsJson</div><div>versionsJson, metricsJson</div><div>testResultsJson, runtimeMs</div><div>aiRiskScore, analysisJson</div></div>
+      <div class="rel-f">1 : N ExplanationAnswer</div></div>
+
+    <div class="ent"><div class="ent-h">EXPLANATION_ANSWER</div><div class="ent-b">
+      <div class="pk">PK id</div><div>FK submissionId</div><div>questionText, answerText</div><div>consistencyScore, aiFeedback</div></div>
+      <div class="rel-f">N : 1 Submission</div></div>
+    <div class="ent"><div class="ent-h">REPORT</div><div class="ent-b">
+      <div class="pk">PK id &middot; UK assessmentId</div><div>overallScore, confidence</div><div>aiRiskScore + signals</div><div>skillScoresJson, breakdownJson</div><div>shareToken (UK, 192-bit)</div></div>
+      <div class="rel-f">1 : 1 Assessment</div></div>
+    <div class="ent"><div class="ent-h">CERTIFICATE</div><div class="ent-b">
+      <div class="pk">PK id &middot; UK code (SP-XXXX-XXXX)</div><div>UK assessmentId (1 : 1)</div><div>FK candidateId</div><div>scoresJson, overallScore</div><div>issuedBy, cohortStandingJson</div></div>
+      <div class="rel-f">1 : 1 Assessment &middot; N : 1 Candidate</div></div>
+  </div>
+
+  <div class="notecard"><b>Supporting entities:</b> USER (scrypt passwordHash, role recruiter | candidate) &middot; TIMER_POLICY (per-section limits, skill overrides, proctor severity thresholds) &middot; PIPELINE_EVENT (decision audit trail with metadata snapshots) &middot; PROCTOR_EVENT_RECORD (durable proctor transcript, indexed by assessment + ts) &middot; FIT_PRESET (saved role-fit weight profiles).</div>
+  <div class="leg">Notation: PK = Primary Key &middot; UK = Unique Key &middot; FK = Foreign Key &middot; CASCADE = cascading delete. All deletions cascade from CANDIDATE and ASSESSMENT.</div>
+</div>
+</body></html>

@@ -1,0 +1,686 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
+  --font-display: var(--font-fraunces);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SkillProof editorial theme — sage on cream.
+   Cream stock ground, deep sage-ink, hairline rules, one sage accent.
+   Semantic status colors (emerald/amber/rose/vermillion) are reserved for
+   meaning (pass/warn/fail/score-bands), never for decoration.
+   ───────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius: 0.375rem;
+  --background: oklch(0.968 0.016 98);      /* cream stock */
+  --foreground: oklch(0.28 0.022 145);      /* sage ink */
+  --card: oklch(0.984 0.012 100);           /* brighter cream for panels */
+  --card-foreground: oklch(0.28 0.022 145);
+  --popover: oklch(0.984 0.012 100);
+  --popover-foreground: oklch(0.28 0.022 145);
+  --primary: oklch(0.47 0.062 147);         /* deep sage — buttons */
+  --primary-foreground: oklch(0.968 0.016 98);
+  --secondary: oklch(0.938 0.02 120);       /* pale sage wash */
+  --secondary-foreground: oklch(0.30 0.028 145);
+  --muted: oklch(0.938 0.018 118);
+  --muted-foreground: oklch(0.478 0.025 135);
+  --accent: oklch(0.925 0.026 122);         /* sage hover wash */
+  --accent-foreground: oklch(0.28 0.022 145);
+  --destructive: oklch(0.55 0.21 29);       /* vermillion — semantic only */
+  --border: oklch(0.878 0.022 118);         /* sage hairline */
+  --input: oklch(0.858 0.026 118);
+  --ring: oklch(0.28 0.022 145 / 55%);
+  --chart-1: oklch(0.34 0.02 145);          /* sage ink */
+  --chart-2: oklch(0.52 0.075 147);         /* sage */
+  --chart-3: oklch(0.52 0.12 155);          /* emerald ink */
+  --chart-4: oklch(0.68 0.14 70);           /* ochre */
+  --chart-5: oklch(0.55 0.09 200);          /* steel teal */
+  --sidebar: oklch(0.96 0.018 100);
+  --sidebar-foreground: oklch(0.28 0.022 145);
+  --sidebar-primary: oklch(0.47 0.062 147);
+  --sidebar-primary-foreground: oklch(0.968 0.016 98);
+  --sidebar-accent: oklch(0.925 0.026 122);
+  --sidebar-accent-foreground: oklch(0.28 0.022 145);
+  --sidebar-border: oklch(0.878 0.022 118);
+  --sidebar-ring: oklch(0.28 0.022 145 / 55%);
+}
+
+/* SkillProof custom styles */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.28 0.022 145 / 22%);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.28 0.022 145 / 38%);
+}
+::selection {
+  background: oklch(0.52 0.075 147 / 22%);
+}
+
+/* faint cream dot-grid — quiet, print-like */
+.sp-grid-bg {
+  background-image: radial-gradient(oklch(0.28 0.022 145 / 4.5%) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@keyframes sp-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+.sp-live-dot {
+  animation: sp-pulse-dot 1.6s ease-in-out infinite;
+}
+
+/* skeleton shimmer */
+@keyframes sp-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.sp-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.sp-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    oklch(0.28 0.022 145 / 4%) 45%,
+    oklch(0.28 0.022 145 / 8%) 50%,
+    oklch(0.28 0.022 145 / 4%) 55%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+  animation: sp-shimmer 1.8s ease-in-out infinite;
+}
+
+/* respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sp-live-dot,
+  .sp-flow-line,
+  .sp-shimmer::after {
+    animation: none !important;
+  }
+}
+
+@keyframes sp-slide-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sp-slide-in {
+  animation: sp-slide-in 0.3s ease-out both;
+}
+
+@keyframes sp-dash {
+  to { stroke-dashoffset: -14; }
+}
+.sp-flow-line {
+  stroke-dasharray: 4 10;
+  animation: sp-dash 1.2s linear infinite;
+}
+
+/* keyboard hint chips (editor shortcuts) */
+.sp-kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.35rem;
+  height: 1.15rem;
+  padding: 0 0.3rem;
+  border-radius: 0.25rem;
+  border: 1px solid oklch(0.28 0.022 145 / 18%);
+  border-bottom-width: 2px;
+  background: oklch(0.984 0.012 100);
+  font-family: var(--font-plex-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  color: oklch(0.34 0.024 145);
+  line-height: 1;
+}
+
+/* shared-report banner */
+.sp-shared-banner {
+  background-image: radial-gradient(ellipse 70% 120% at 50% 0%, oklch(0.28 0.022 145 / 5%), transparent);
+}
+
+/* tactile press feedback for primary CTAs (disabled under reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .sp-press {
+    transition: transform 0.12s ease;
+  }
+  .sp-press:active:not(:disabled) {
+    transform: scale(0.965);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* ─── Print / export report ─────────────────────────────────────────────── */
+@media print {
+  :root {
+    --background: #ffffff;
+    --foreground: #111827;
+    --card: #ffffff;
+    --card-foreground: #111827;
+    --muted-foreground: #4b5563;
+    --border: #d1d5db;
+  }
+  body {
+    background: #fff !important;
+    color: #111827 !important;
+  }
+  header, footer, .print\:hidden {
+    display: none !important;
+  }
+  .sp-grid-bg {
+    background-image: none !important;
+  }
+  main {
+    padding: 0 !important;
+  }
+  * {
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    animation: none !important;
+  }
+  [class*="bg-zinc-9"], [class*="bg-card"] {
+    background-color: #fff !important;
+  }
+  [class*="text-zinc-1"], [class*="text-emerald-7"], [class*="text-amber-7"], [class*="text-rose-7"] {
+    color: #111827 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  .text-emerald-700, .text-emerald-800 {
+    color: #047857 !important;
+  }
+  .text-amber-700, .text-amber-800 {
+    color: #b45309 !important;
+  }
+  .text-rose-700, .text-rose-800 {
+    color: #be123c !important;
+  }
+}
+
+/* ─── Certificate print support  ────────────────────────────────
+   Prints only the .certificate-sheet, flat on A4 landscape, with the cream
+   stock + sage seal preserved (exact colors). Extends — never replaces
+   — the report print rules above. */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
+  body * {
+    visibility: hidden;
+  }
+  .certificate-sheet,
+  .certificate-sheet * {
+    visibility: visible;
+  }
+  .certificate-page {
+    padding: 0 !important;
+    min-height: 0 !important;
+    background: none !important;
+  }
+  .certificate-sheet {
+    position: absolute;
+    inset-inline: 0;
+    margin: 0 auto;
+    top: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .certificate-seal {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   Global dressing: paper grain, selection, scrollbar, focus
+   keyline, micro-typography, editorial utilities.
+   The token table and both print blocks above are untouched;
+   where these rules intentionally refine earlier ones (::selection, webkit
+   scrollbar) they win purely by coming later in the cascade.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* native controls stay light — matches the light-only token sheet */
+html {
+  color-scheme: light;
+}
+
+/* ── Letterpress paper grain ──────────────────────────────────────────────
+   A near-invisible grayscale fractal-noise sheet over the paper canvas.
+   It sits BELOW all content (z-index -1) with pointer-events none, so cards
+   and panels keep their clean stock while the exposed ground warms up —
+   ink printed on textured paper, not a filter over the UI. Static layer:
+   no animation, one fixed tiled element, negligible paint cost. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.022; /* ≤ 0.025 — should read as paper, never as noise */
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='sp-grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23sp-grain)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* ── Selection: sage highlighter on cream ───────────────────────────
+   Refines the earlier tint (same sage hue, dialled toward a marker
+   stroke) and pins the selected ink so it never flips to white. */
+::selection {
+  background: oklch(0.52 0.075 147 / 18%);
+  color: #222c22; /* sage ink */
+  text-shadow: none;
+}
+::-moz-selection {
+  background: oklch(0.52 0.075 147 / 18%);
+  color: #222c22;
+  text-shadow: none;
+}
+
+/* ── Scrollbar: quiet editorial gutter ────────────────────────────────────
+   Refines the earlier webkit rules (later in cascade → these win). Cream
+   track, sage-grey thumb; a transparent border reserves room so the hover
+   hairline never resizes or shifts the thumb. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #eceadd; /* cream-grey */
+}
+::-webkit-scrollbar-thumb {
+  background: #d3d6c3; /* sage-grey */
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  border-color: #a3aa8d; /* sage hairline on hover */
+}
+/* Firefox — thin, same values */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d3d6c3 #eceadd;
+}
+
+/* ── Focus: sage keyline instead of browser blue ────────────────────
+   Keyboard-only affordance (:focus-visible only — mouse users see nothing).
+   Components that already draw an ink ring (shadcn ring utilities) get the
+   sanctioned double ring: ink + sage. */
+:focus-visible {
+  outline: 2px solid #5c7250;
+  outline-offset: 2px;
+}
+
+/* ── Micro-typography ─────────────────────────────────────────────────────
+   Kerning + optical sizing for the Fraunces display face (display cuts for
+   headlines, text cuts for small serif) and for headings generally. Adds
+   properties only — font-family still comes from the Tailwind utility. */
+.font-display,
+h1,
+h2,
+h3,
+h4 {
+  font-kerning: normal;
+  font-optical-sizing: auto;
+}
+
+/* Motion guard: anything animated in this section already collapses under
+   the existing prefers-reduced-motion block above (0.01ms transitions).
+   We deliberately do NOT add a global * transition base — Tailwind classes
+   and the utilities below own their transitions, so nothing snaps and
+   nothing animates that shouldn't. */
+
+/* ── Editorial utilities ─────────────────────────────────────────── */
+
+/* .sp-underline-slide — a 1px line that draws itself in from the left on
+   hover/focus. Follows currentColor; combine with .sp-underline-accent
+   for the accent version. Colour fades stay in the transition list so the
+   utility can sit on buttons whose own hover tints must keep fading. */
+.sp-underline-slide {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition:
+    background-size 0.25s ease,
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.sp-underline-slide:hover,
+.sp-underline-slide:focus-visible {
+  background-size: 100% 1px;
+}
+.sp-underline-accent {
+  background-image: linear-gradient(#5c7250, #5c7250);
+}
+
+/* .sp-rule — hairline rule; .sp-rule-cap adds a small sage square
+   terminal at the left end (the landing's square mark, rendered in ink). */
+.sp-rule {
+  position: relative;
+  height: 1px;
+  background: oklch(0.878 0.022 118); /* --border hairline */
+}
+.sp-rule-cap::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 5px;
+  height: 5px;
+  background: #5c7250;
+}
+
+/* .sp-num — Fraunces figures that keep their columns straight. */
+.sp-num {
+  font-family: var(--font-fraunces);
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* .sp-link — mono uppercase micro-link; underline slides in on hover. */
+.sp-link {
+  font-family: var(--font-plex-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: oklch(0.478 0.025 135); /* muted sage ink */
+  text-decoration: none;
+  padding-bottom: 2px;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition:
+    background-size 0.25s ease,
+    color 0.2s ease;
+}
+.sp-link:hover,
+.sp-link:focus-visible {
+  color: oklch(0.28 0.022 145); /* ink */
+  background-size: 100% 1px;
+}
+
+/* .sp-frame-double — inner hairline for certificate-like panels. Pair with
+   an outer `border border-zinc-300` on the same element to reproduce the
+   double frame of the printed certificate. */
+.sp-frame-double {
+  position: relative;
+}
+.sp-frame-double::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid oklch(0.878 0.022 118);
+  pointer-events: none;
+}
+
+/* ── Print guards — screen dressing never reaches paper ──────────────
+   Extends (never replaces) the print blocks above: kill the grain overlay
+   and any leftover transitions; scrollbars/selection/focus are irrelevant
+   on paper. */
+@media print {
+  body::before {
+    display: none !important;
+  }
+  * {
+    transition: none !important;
+  }
+}
+
+/* ── 33 — landscape certificate sheet: print refinement ───────────────────
+   The sheet targets an A4-landscape aspect on screen; on paper we let the
+   content set the height (the print block above already flattens it onto
+   the @page), keep the engraved colors exact, and drop the pulse skeleton
+   a slow QR paint could leave behind. */
+@media print {
+  .certificate-sheet {
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .certificate-sheet * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+
+/* ═════════════════════════════════════════════════════════════════════════
+   DARK MODE — editorial sage night ("cream on moss").
+   Same editorial language as the light sheet: opaque surfaces, hairline
+   rules, one sage accent, semantic status colors. The ground flips from
+   cream stock to a deep moss-charcoal; panels are raised dark surfaces
+   (opaque, mirroring "brighter cream for panels"); the solid anchors invert
+   sage→pale-sage; cream text holds contrast. The .dark class on
+   <html> is owned by next-themes (class strategy).
+   APPEND-ONLY: where these rules refine earlier ones (scrollbar, selection,
+   kbd, rules, grid) they win purely by coming later in the cascade.
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── Shared semantic hooks for JS/SVG (charts draw gridlines via SVG
+   presentation attributes; hard-coded light oklch there can't respond to
+   dark: variants, so components reference these vars instead). ── */
+:root {
+  --sp-grid-ink: oklch(0.28 0.022 145 / 12%);   /* chart gridline strokes */
+  --sp-grid-ink-faint: oklch(0.28 0.022 145 / 9%);
+  --sp-ink-soft: oklch(0.478 0.025 135);        /* chart axis labels/marks */
+}
+
+.dark {
+  --radius: 0.375rem;
+  --background: oklch(0.205 0.014 152);     /* deep moss-charcoal */
+  --foreground: oklch(0.92 0.016 105);      /* cream bone */
+  --card: oklch(0.245 0.016 152);           /* raised moss panel */
+  --card-foreground: oklch(0.92 0.016 105);
+  --popover: oklch(0.235 0.016 152);        /* menus sit a step darker */
+  --popover-foreground: oklch(0.92 0.016 105);
+  --primary: oklch(0.85 0.055 132);         /* pale sage — anchors invert */
+  --primary-foreground: oklch(0.22 0.02 150);
+  --secondary: oklch(0.30 0.018 150);
+  --secondary-foreground: oklch(0.89 0.018 110);
+  --muted: oklch(0.28 0.018 150);
+  --muted-foreground: oklch(0.71 0.022 130);
+  --accent: oklch(0.295 0.02 150);          /* night hover */
+  --accent-foreground: oklch(0.94 0.014 108);
+  --destructive: oklch(0.64 0.19 29);       /* vermillion, lifted — semantic */
+  --border: oklch(0.355 0.018 150);         /* opaque dark hairline */
+  --input: oklch(0.375 0.018 150);
+  --ring: oklch(0.92 0.016 105 / 50%);
+  --chart-1: oklch(0.86 0.02 120);          /* cream-bone */
+  --chart-2: oklch(0.75 0.09 145);          /* sage, lifted */
+  --chart-3: oklch(0.72 0.12 155);          /* emerald, lifted */
+  --chart-4: oklch(0.78 0.13 70);           /* ochre, lifted */
+  --chart-5: oklch(0.72 0.09 200);          /* steel teal, lifted */
+  --sidebar: oklch(0.23 0.016 152);
+  --sidebar-foreground: oklch(0.92 0.016 105);
+  --sidebar-primary: oklch(0.85 0.055 132);
+  --sidebar-primary-foreground: oklch(0.22 0.02 150);
+  --sidebar-accent: oklch(0.295 0.02 150);
+  --sidebar-accent-foreground: oklch(0.94 0.014 108);
+  --sidebar-border: oklch(0.355 0.018 150);
+  --sidebar-ring: oklch(0.92 0.016 105 / 50%);
+
+  --sp-grid-ink: oklch(0.92 0.016 105 / 13%);
+  --sp-grid-ink-faint: oklch(0.92 0.016 105 / 10%);
+  --sp-ink-soft: oklch(0.74 0.022 128);
+}
+
+/* native controls follow the active sheet */
+html.dark {
+  color-scheme: dark;
+}
+
+/* ── Night dressing refinements (win over earlier rules by cascade order) ── */
+.dark ::selection {
+  background: oklch(0.75 0.09 145 / 35%);
+  color: oklch(0.96 0.012 105);
+  text-shadow: none;
+}
+.dark ::-moz-selection {
+  background: oklch(0.75 0.09 145 / 35%);
+  color: oklch(0.96 0.012 105);
+  text-shadow: none;
+}
+
+.dark :focus-visible {
+  outline-color: #a9c29b; /* sage, lifted for dark ground */
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #171d18;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #2f3a31;
+  border-color: transparent;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  border-color: #4a5749;
+}
+.dark * {
+  scrollbar-color: #2f3a31 #171d18;
+}
+
+.dark .sp-grid-bg {
+  background-image: radial-gradient(oklch(0.92 0.016 105 / 5%) 1px, transparent 1px);
+}
+
+.dark .sp-kbd {
+  border-color: oklch(0.92 0.016 105 / 22%);
+  background: oklch(0.29 0.018 150);
+  color: oklch(0.89 0.018 110);
+}
+
+.dark .sp-rule {
+  background: oklch(0.355 0.018 150);
+}
+.dark .sp-frame-double::after {
+  border-color: oklch(0.355 0.018 150);
+}
+
+.dark .sp-shared-banner {
+  background-image: radial-gradient(ellipse 70% 120% at 50% 0%, oklch(0.92 0.016 105 / 6%), transparent);
+}
+
+.dark .sp-link {
+  color: oklch(0.71 0.022 130);
+}
+.dark .sp-link:hover,
+.dark .sp-link:focus-visible {
+  color: oklch(0.92 0.016 105);
+}
+
+.dark .sp-shimmer::after {
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    oklch(0.92 0.016 105 / 4%) 45%,
+    oklch(0.92 0.016 105 / 8%) 50%,
+    oklch(0.92 0.016 105 / 4%) 55%,
+    transparent 80%
+  );
+  background-size: 200% 100%;
+}
+
+/* ── PRINT ALWAYS LIGHT ────────────────────────────────────────────────────
+   Paper is light. The earlier print block already forces light tokens on
+   :root and a white body (!important); these guards close the remaining
+   gaps when the dark sheet is active (color-scheme, canvas, scrollbar). */
+@media print {
+  html.dark {
+    color-scheme: light;
+  }
+  html.dark body {
+    background: #fff !important;
+    color: #111827 !important;
+  }
+}
+
+/* ── Reduced motion (accessibility) ───────────────────────────────
+   Honor the OS "reduce motion" request: CSS animations/transitions collapse
+   to their end state. Framer Motion's JS-driven tweens are unaffected by CSS
+   but the exam UI runs almost entirely on CSS transitions, which is where
+   vestibular comfort matters most. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

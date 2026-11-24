@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.canvas{width:790px;padding:18px 14px;background:#fff}
+.title{text-align:center;font-size:19px;font-weight:700;color:#1f2937;margin-bottom:14px}
+.box{border:2px solid #436446;border-radius:8px;background:#F1F5F0;padding:9px 12px;text-align:center}
+.box b{display:block;font-size:13.8px;color:#1f2f22}
+.box span{display:block;font-size:11.8px;color:#4b5563;margin-top:3px;line-height:1.4}
+.plain{border:1.8px solid #8CA08C;border-radius:6px;background:#fff;padding:8px 12px;text-align:center}
+.plain b{display:block;font-size:13px;color:#1f2f22}
+.plain span{display:block;font-size:11.6px;color:#4b5563;margin-top:2px;line-height:1.4}
+.diamond-wrap{display:flex;justify-content:center;margin:0}
+.diamond{width:170px;height:64px;position:relative}
+.diamond svg{position:absolute;inset:0}
+.diamond div{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11.8px;font-weight:600;color:#1f2f22;text-align:center;line-height:1.25}
+.arr{display:flex;justify-content:center;height:26px;position:relative}
+.arr .lbl{position:absolute;left:calc(50% + 12px);top:2px;font-size:11px;font-weight:700;color:#475569}
+svg{display:block}
+.row{display:flex;gap:12px;justify-content:center}
+.row .plain{width:240px}
+.branchline{position:relative;height:30px}
+.branchline svg{position:absolute;left:0;top:0}
+</style></head><body>
+<div class="canvas" id="shot">
+  <div class="title">Authentication, Session Issuance and Role-Routing Flow of SkillProof</div>
+
+  <div class="box" style="width:420px;margin:0 auto"><b>Launch SkillProof SPA</b><span>Client boots with zero trusted state &mdash; every privilege is re-derived server-side</span></div>
+  <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+
+  <div class="row">
+    <div class="plain"><b>Candidate Path</b><span>Email + password sign-in; demo-mode autofill credentials for evaluation runs</span></div>
+    <div class="plain"><b>Recruiter Path</b><span>Provisioned ID + password; account seeded from SKILLPROOF_RECRUITER_* environment supply chain at first login (never self-registered)</span></div>
+  </div>
+  <div class="arr"><svg width="300" height="30"><line x1="150" y1="0" x2="150" y2="10" stroke="#475569" stroke-width="2"/><line x1="20" y1="10" x2="280" y2="10" stroke="#475569" stroke-width="2"/><line x1="20" y1="10" x2="20" y2="22" stroke="#475569" stroke-width="2"/><line x1="280" y1="10" x2="280" y2="22" stroke="#475569" stroke-width="2"/><polygon points="14,20 26,20 20,30" fill="#475569"/><polygon points="274,20 286,20 280,30" fill="#475569"/></svg></div>
+
+  <div class="plain" style="width:480px;margin:0 auto"><b>POST /api/auth/login &mdash; Credential Verification</b><span>scrypt (N=16384) derived-key comparison with per-user random salt, constant-time timingSafeEqual; generic error on failure</span></div>
+  <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+
+  <div class="diamond-wrap">
+    <div class="diamond">
+      <svg viewBox="0 0 170 64"><polygon points="85,1 169,32 85,63 1,32" fill="#FAF6EC" stroke="#7A5C2E" stroke-width="1.8"/></svg>
+      <div>Credentials valid?</div>
+    </div>
+  </div>
+  <div class="branchline">
+    <svg width="760" height="34">
+      <line x1="85" y1="0" x2="85" y2="26" stroke="#475569" stroke-width="2"/>
+      <polygon points="79,24 91,24 85,34" fill="#475569"/>
+      <text x="100" y="14" font-size="11.5" font-weight="700" fill="#33603C" font-family="Arial">Yes</text>
+      <line x1="85" y1="0" x2="635" y2="0" stroke="#475569" stroke-width="2"/>
+      <line x1="635" y1="0" x2="635" y2="26" stroke="#9A3412" stroke-width="2"/>
+      <polygon points="629,24 641,24 635,34" fill="#9A3412"/>
+      <text x="575" y="14" font-size="11.5" font-weight="700" fill="#9A3412" font-family="Arial">No</text>
+    </svg>
+  </div>
+
+  <div class="row">
+    <div class="plain"><b>HMAC-Signed Session Cookie</b><span>httpOnly, random 192-bit secret persisted on disk; role claim inside; stateless verification on every request</span></div>
+    <div class="plain" style="border-color:#9A3412"><b>Reject Access</b><span>HTTP 401 with generic error and inline alert; no session created</span></div>
+  </div>
+  <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+  <div class="box" style="width:330px;margin:0 auto"><b>Role Routing</b><span>Candidate &rarr; verification flow &middot; Recruiter &rarr; evidence workspace</span></div>
+  <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+
+  <div class="plain" style="width:560px;margin:0 auto"><b>Every Subsequent API Call &mdash; guards.ts Authorization Pipeline</b><span>authenticate (401) &rarr; resolve role &rarr; verify resource ownership (403) &rarr; check state &rarr; audit-log the decision</span></div>
+</div>
+</body></html>

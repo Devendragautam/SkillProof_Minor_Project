@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.canvas{width:790px;padding:18px 14px;background:#fff}
+.title{text-align:center;font-size:19px;font-weight:700;color:#1f2937;margin-bottom:14px}
+.tier{border:2px solid #436446;border-radius:8px;background:#F1F5F0;padding:10px 12px}
+.tier-h{font-size:15.5px;font-weight:700;color:#1f2f22;text-align:center;margin-bottom:8px}
+.tier-sub{font-size:11.5px;color:#4b5563;text-align:center;margin-top:8px}
+.row{display:flex;gap:10px}
+.node{flex:1;background:#fff;border:1.5px solid #8CA08C;border-radius:6px;padding:8px 10px}
+.node b{display:block;font-size:13.5px;color:#1f2f22;margin-bottom:3px}
+.node span{display:block;font-size:11.8px;color:#4b5563;line-height:1.35}
+.arr{display:flex;justify-content:center;align-items:center;height:34px}
+.arr svg{display:block}
+.arch-side{display:flex;gap:12px;margin-top:0}
+.main-col{flex:1}
+.side-col{width:212px;display:flex;flex-direction:column}
+.side-box{border:2px solid #7A5C2E;border-radius:8px;background:#FAF6EC;padding:10px 12px}
+.side-box b{display:block;font-size:13.5px;color:#3d2f14;text-align:center;margin-bottom:4px}
+.side-box span{display:block;font-size:11.5px;color:#4b5563;line-height:1.4}
+.side-box ul{margin:6px 0 0 14px}
+.side-box li{font-size:11.3px;color:#4b5563;line-height:1.45}
+.hlink{height:26px;position:relative}
+.gap{height:30px}
+.legend{margin-top:12px;text-align:center;font-size:11.3px;color:#6b7280;font-style:italic}
+</style></head><body>
+<div class="canvas" id="shot">
+  <div class="title">Four-Tier Cloud-Backed System Architecture of SkillProof</div>
+  <div class="arch-side">
+    <div class="main-col">
+      <div class="tier">
+        <div class="tier-h">Tier 1 &mdash; Presentation Layer (React 19 Single-Page Client)</div>
+        <div class="row">
+          <div class="node"><b>Candidate Flow</b><span>Resume upload, claimed-skill confirmation, proctored assessment runner, verified profile</span></div>
+          <div class="node"><b>Recruiter Workspace</b><span>Overview, candidates register, question bank, live monitoring, reports, certificates</span></div>
+          <div class="node"><b>Public Verify</b><span>Certificate verification by code, share-token report views, landing comparisons</span></div>
+        </div>
+        <div class="tier-sub">Tailwind CSS 4 &middot; shadcn/ui &middot; Zustand state &middot; TanStack Query &middot; self-hosted Monaco Editor</div>
+      </div>
+      <div class="arr"><svg width="26" height="26"><line x1="13" y1="0" x2="13" y2="18" stroke="#475569" stroke-width="2"/><polygon points="7,16 19,16 13,26" fill="#475569"/></svg></div>
+      <div class="tier">
+        <div class="tier-h">Tier 2 &mdash; API Gateway and Authorization Layer (Next.js App Router)</div>
+        <div class="row">
+          <div class="node"><b>43 Route Handlers</b><span>/api/auth, /api/assessment, /api/candidates, /api/questions, /api/certificates, /api/report &hellip;</span></div>
+          <div class="node"><b>Session Middleware</b><span>HMAC-signed httpOnly cookie, role resolution, timing-safe credential checks</span></div>
+          <div class="node"><b>Centralized Guards</b><span>guards.ts &mdash; authentication first, then resource ownership, then state (401 / 403)</span></div>
+        </div>
+        <div class="tier-sub">Zod-style input validation &middot; per-route rate limiting &middot; audit logging</div>
+      </div>
+      <div class="arr"><svg width="26" height="26"><line x1="13" y1="0" x2="13" y2="18" stroke="#475569" stroke-width="2"/><polygon points="7,16 19,16 13,26" fill="#475569"/></svg></div>
+      <div class="tier">
+        <div class="tier-h">Tier 3 &mdash; Domain Services and Business Logic (TypeScript)</div>
+        <div class="row">
+          <div class="node"><b>Adaptive Engine</b><span>buildPlan hybrid selection, difficulty stepping, question dealing</span></div>
+          <div class="node"><b>Execution Sandboxes</b><span>JavaScript isolate, Python / C++ / Java runners, real SQL executor</span></div>
+          <div class="node"><b>AI Service</b><span>Skill extraction, MCQ import, explain generation and consistency scoring</span></div>
+          <div class="node"><b>Document Engine</b><span>Certificate and evidence-report PDF builders, QR verification seals</span></div>
+        </div>
+        <div class="tier-sub">Server-authoritative timers &middot; evidence metrics &middot; AI-assist risk signals &middot; cohort analytics</div>
+      </div>
+      <div class="arr"><svg width="26" height="26"><line x1="13" y1="0" x2="13" y2="18" stroke="#475569" stroke-width="2"/><polygon points="7,16 19,16 13,26" fill="#475569"/></svg></div>
+      <div class="tier">
+        <div class="tier-h">Tier 4 &mdash; Persistence Layer (Prisma ORM)</div>
+        <div class="row">
+          <div class="node" style="max-width:290px;margin:0 auto"><b>SQLite Relational Store &mdash; 14 Normalized Entities</b><span>Users, Candidates, Resumes, Questions, Assessments, Submissions, Reports, Certificates, TimerPolicy, PipelineEvent, ProctorEventRecord &hellip;</span></div>
+        </div>
+        <div class="tier-sub">Cascading foreign keys &middot; composite indexes &middot; single-active-question invariant (@@unique)</div>
+      </div>
+    </div>
+    <div class="side-col">
+      <div class="gap"></div>
+      <div class="hlink" style="height:44px"></div>
+      <div class="side-box">
+        <b>Real-Time Proctoring<br>Microservice</b>
+        <span style="text-align:center;display:block;font-weight:600">socket.io &middot; port 3003</span>
+        <ul>
+          <li>Candidate event stream (edits, pastes, focus changes, test runs)</li>
+          <li>Recruiter room broadcast &mdash; live session cards</li>
+          <li>Bounded retry queue flushing durable transcripts to the ingest API</li>
+          <li>/healthz liveness probe</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="legend">Notation: HTTPS JSON request&ndash;response between tiers 1&ndash;3; socket.io duplex stream between the client and the proctoring microservice.</div>
+</div>
+</body></html>

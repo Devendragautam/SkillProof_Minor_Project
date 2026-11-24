@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.canvas{width:790px;padding:18px 14px;background:#fff}
+.title{text-align:center;font-size:19px;font-weight:700;color:#1f2937;margin-bottom:16px}
+.root{border:2px solid #436446;border-radius:8px;background:#F1F5F0;padding:10px;margin-bottom:4px}
+.root b{display:block;font-size:14.5px;color:#1f2f22;text-align:center}
+.root span{display:block;font-size:11.6px;color:#4b5563;text-align:center;margin-top:3px;line-height:1.45}
+.branch{display:flex;gap:10px;margin-top:6px}
+.col{flex:1;border:1.5px solid #8CA08C;border-radius:6px;background:#fff;padding:8px 10px}
+.col b{display:block;font-size:12.8px;color:#1f2f22;margin-bottom:3px}
+.col span{display:block;font-size:11.4px;color:#4b5563;line-height:1.4}
+.arr{display:flex;justify-content:center;height:30px}
+svg{display:block}
+.lane{display:flex;gap:12px;align-items:stretch}
+.cell{flex:1;border:1.5px dashed #7A5C2E;border-radius:6px;background:#FAF6EC;padding:8px 10px}
+.cell b{display:block;font-size:12.8px;color:#3d2f14;margin-bottom:3px}
+.cell span{display:block;font-size:11.4px;color:#4b5563;line-height:1.4}
+</style></head><body>
+<div class="canvas" id="shot">
+  <div class="title">Backend Source-Tree and Module Organization of SkillProof</div>
+
+  <div class="root">
+    <b>src/app/api/ &mdash; HTTP Interface Layer (43 Route Handlers)</b>
+    <span>Every route is a thin controller: parse &rarr; validate &rarr; authorize through guards &rarr; delegate to a domain service &rarr; serialize JSON</span>
+    <div class="branch">
+      <div class="col"><b>auth/</b><span>login, logout, me, register (scrypt + session cookie)</span></div>
+      <div class="col"><b>assessment/</b><span>create, next, submit, skip, goto, hint, explain, complete</span></div>
+      <div class="col"><b>candidates/</b><span>CRUD, bulk import, invite, merge, pipeline-status, timeline</span></div>
+      <div class="col"><b>questions/</b><span>CRUD, import JSON/PDF/MCQ, stats, validate-sql</span></div>
+    </div>
+    <div class="branch" style="margin-top:8px">
+      <div class="col"><b>certificates/</b><span>issue, list, verify by code, PDF download</span></div>
+      <div class="col"><b>report/</b><span>detail, PDF, evidence bundle (pdf-zip)</span></div>
+      <div class="col"><b>run &middot; resume &middot; skills</b><span>sandboxed execution, resume parse, skill extraction</span></div>
+      <div class="col"><b>proctor &middot; cohort &middot; stats &middot; health</b><span>event ingest, standings, telemetry, liveness</span></div>
+    </div>
+  </div>
+
+  <div class="arr"><svg width="26" height="24"><line x1="13" y1="0" x2="13" y2="16" stroke="#475569" stroke-width="2"/><polygon points="7,14 19,14 13,24" fill="#475569"/></svg></div>
+
+  <div class="root">
+    <b>src/lib/server/ &mdash; Domain Services (server-only modules)</b>
+    <div class="branch">
+      <div class="col"><b>auth.ts</b><span>scrypt hashing, sessions, provisioning</span></div>
+      <div class="col"><b>guards.ts</b><span>centralized RBAC + ownership checks</span></div>
+      <div class="col"><b>assessment.ts</b><span>buildPlan, adaptive dealing, scoring</span></div>
+      <div class="col"><b>timer-policy.ts</b><span>per-section limits, skill overrides</span></div>
+    </div>
+    <div class="branch" style="margin-top:8px">
+      <div class="col"><b>lang-exec.ts &middot; exec/</b><span>JS isolate, Python / C++ / Java runners</span></div>
+      <div class="col"><b>sql-exec.ts</b><span>real SQL grader with schema + seed data</span></div>
+      <div class="col"><b>certificates.ts &middot; certificate-pdf.ts &middot; report-pdf.ts</b><span>issuing, verification codes, QR PDFs</span></div>
+      <div class="col"><b>audit.ts &middot; rate-limit.ts &middot; validate.ts</b><span>decision audit trail, throttling, input validation</span></div>
+    </div>
+  </div>
+
+  <div class="arr"><svg width="26" height="24"><line x1="13" y1="0" x2="13" y2="16" stroke="#475569" stroke-width="2"/><polygon points="7,14 19,14 13,24" fill="#475569"/></svg></div>
+
+  <div class="lane">
+    <div class="cell" style="flex:1.35">
+      <b>src/lib/ &mdash; Shared Kernel (import-safe types and pure logic)</b>
+      <span>ai.ts (LLM provider abstraction with heuristic fallbacks) &middot; skills.ts (12-skill catalog, canonicalization) &middot; scoring.ts &middot; metrics.ts &middot; behavior.ts (evidence signals) &middot; questions/ (94-question bank) &middot; types.ts &middot; sandbox.ts</span>
+    </div>
+    <div class="cell">
+      <b>mini-services/proctor-service &mdash; Real-Time Microservice</b>
+      <span>socket.io server on port 3003: candidate room, recruiter room, session registry, event ring buffer, durable ingest queue, /healthz probe</span>
+    </div>
+    <div class="cell">
+      <b>prisma/ &mdash; Data Layer</b>
+      <span>schema.prisma with 14 models &middot; SQLite store &middot; seed scripts (bank + demo cohort) &middot; migrations via db push</span>
+    </div>
+  </div>
+</div>
+</body></html>

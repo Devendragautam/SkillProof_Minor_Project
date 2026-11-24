@@ -1,0 +1,5 @@
+# bun test configuration — generous timeout for code-execution probes
+# (sandboxed runners enforce their own per-execution timeouts; some probes
+# legitimately take several seconds before the kill lands).
+[test]
+timeout = 30000

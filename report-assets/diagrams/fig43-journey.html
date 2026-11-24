@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif}
+.canvas{width:790px;padding:18px 14px;background:#fff}
+.title{text-align:center;font-size:19px;font-weight:700;color:#1f2937;margin-bottom:14px}
+.stage{border:2px solid #436446;border-radius:8px;background:#F1F5F0;padding:9px 12px;flex:1}
+.stage b{display:block;font-size:13.6px;color:#1f2f22;text-align:center}
+.stage span{display:block;font-size:11.5px;color:#4b5563;text-align:center;margin-top:3px;line-height:1.42}
+.arr{display:flex;justify-content:center;align-items:center;gap:6px;height:30px}
+.arr svg{display:block}
+.stage.big{flex:2.2;background:#fff;border-style:dashed;border-color:#7A5C2E}
+.stage.big b{color:#3d2f14}
+.loop{border:1.5px dashed #7A5C2E;border-radius:6px;background:#FAF6EC;text-align:center;padding:7px 10px;font-size:12px;color:#3d2f14;font-style:italic;margin-top:4px}
+</style></head><body>
+<div class="canvas" id="shot">
+  <div class="title">Functional Module Hierarchy and State Flow of the Candidate Verification Flow</div>
+  <div style="display:flex;gap:10px;align-items:stretch">
+    <div class="stage"><b>1. Resume Intake</b><span>File upload or paste; sample resume for demo runs</span></div>
+    <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+    <div class="stage"><b>2. AI Skill Extraction</b><span>Claimed skills mapped onto the 12-skill catalog with heuristic fallback</span></div>
+    <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+    <div class="stage"><b>3. Profile Confirmation</b><span>Candidate confirms skills + claimed level per skill</span></div>
+    <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+    <div class="stage"><b>4. Plan Generation</b><span>buildPlan deals a 10-question hybrid mix from those claims</span></div>
+  </div>
+
+  <div class="arr" style="height:26px"><svg width="26" height="20"><line x1="13" y1="0" x2="13" y2="12" stroke="#475569" stroke-width="2"/><polygon points="7,10 19,10 13,20" fill="#475569"/></svg></div>
+
+  <div class="stage big"><b>5. Proctored Assessment Runner &mdash; full exam screen</b>
+    <span>Question palette (skip / return) &middot; Monaco editor with visible + hidden tests &middot; JavaScript, Python, C++, Java &middot; real SQL execution &middot; per-question server deadline countdown &middot; disclosed session evidence panel &middot; two-strike tab-switch auto-submit &middot; per-question hint (scored cost)</span>
+  </div>
+
+  <div class="arr" style="height:26px"><svg width="26" height="20"><line x1="13" y1="0" x2="13" y2="12" stroke="#475569" stroke-width="2"/><polygon points="7,10 19,10 13,20" fill="#475569"/></svg></div>
+
+  <div style="display:flex;gap:10px;align-items:stretch">
+    <div class="stage"><b>6. Explain-the-Code</b><span>Generated questions on the candidate's own submission; consistency scored</span></div>
+    <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+    <div class="stage"><b>7. Evidence Report</b><span>Overall score, confidence band, AI-assist risk, skill-wise percentages</span></div>
+    <div class="arr"><svg width="26" height="22"><line x1="13" y1="0" x2="13" y2="14" stroke="#475569" stroke-width="2"/><polygon points="7,12 19,12 13,22" fill="#475569"/></svg></div>
+    <div class="stage"><b>8. Verified Profile</b><span>Certificate SP-code, QR sheet, downloadable PDF, public verify link</span></div>
+  </div>
+
+  <div class="loop">Every stage is server-authoritative: browser clocks are never consulted, and any mutation after the assessment deadline is rejected.</div>
+</div>
+</body></html>
