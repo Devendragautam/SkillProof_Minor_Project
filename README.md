@@ -124,7 +124,7 @@ Run `bun run db:seed` after changing these values; the seed rotates the recruite
 │  └─ proctor-service/      # socket.io live-proctoring service
 └─ public/monaco-vs/        # Self-hosted Monaco editor runtime
 ```
-
+https://preview-chat-4ea8059e-2899-4423-9142-6969e8daa15b.space-z.ai/
 ## Design language
 
 Sage on cream: a cream paper ground, sage ink, hairline rules, mono uppercase micro-labels, one sage accent, Fraunces display serif with Archivo and IBM Plex Mono. Flat cards, no shadows; evidence is presented like a printed record. Status colors (emerald, amber, rose) are reserved for meaning — pass, warning, failure — never decoration. Both themes are first-class; dark mode is a moss-charcoal sheet with cream text and pale-sage anchors.
